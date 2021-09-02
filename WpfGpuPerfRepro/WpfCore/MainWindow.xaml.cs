@@ -20,9 +20,83 @@ namespace WpfCore
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private WriteableBitmap _writeableBitmap = new WriteableBitmap(800, 600, 96, 96, PixelFormats.Bgr32, null);
+
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			// MessageBox.Show("Loaded");
+			MainImage.Source = _writeableBitmap;
+
+#pragma warning disable 4014
+			ImageUpdateLoop();
+#pragma warning restore 4014
+		}
+
+		private async Task ImageUpdateLoop()
+		{
+			var radius = 40;
+			var cx = radius;
+			var cy = radius;
+			var dx = 2;
+			var dy = 2;
+			while (true)
+			{
+				// Move
+				cx += dx;
+				cy += dy;
+				
+				// Bounce
+				if (cx > _writeableBitmap.PixelWidth - radius)
+				{
+					cx = _writeableBitmap.PixelWidth - radius;
+					dx = -1;
+				}
+				if (cx < radius)
+				{
+					cx = radius;
+					dx = 1;
+				}
+				if (cy > _writeableBitmap.PixelHeight - radius)
+				{
+					cy = _writeableBitmap.PixelHeight - radius;
+					dy = -1;
+				}
+				if (cy < radius)
+				{
+					cy = radius;
+					dy = 1;
+				}
+				
+				// Draw
+				MainImage.Dispatcher.Invoke(() =>
+				{
+					try
+					{
+						// Lock the bitmap, so the BackBuffer doesn't change while we're writing to it
+						_writeableBitmap.Lock();
+
+						// Create a mat over the writeableBitmap's buffer
+						_writeableBitmap.Clear(Colors.Goldenrod);
+						_writeableBitmap.FillEllipseCentered(cx, cy, radius, radius, Colors.DarkBlue);
+
+						// Add a dirty rect, which causes it to redisplay
+						_writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, _writeableBitmap.PixelWidth, _writeableBitmap.PixelHeight));
+						// Does this help performance?
+						// _writeableBitmap.Freeze();
+					}
+					finally
+					{
+						_writeableBitmap.Unlock();
+					}
+				});
+				// Wait for 30ms & then do it again
+				await Task.Delay(10);
+			}
 		}
 	}
 }
