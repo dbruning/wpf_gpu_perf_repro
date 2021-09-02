@@ -1,0 +1,1 @@
+wpf_gpu_perf_repro
