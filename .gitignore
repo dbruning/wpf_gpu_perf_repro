@@ -6,3 +6,9 @@ WpfGpuPerfRepro/WpfCore/obj/
 WpfGpuPerfRepro/.idea/
 
 WpfGpuPerfRepro/.vs/
+
+WpfGpuPerfRepro/packages/
+
+WpfGpuPerfRepro/WpfFramework/bin/
+
+WpfGpuPerfRepro/WpfFramework/obj/
