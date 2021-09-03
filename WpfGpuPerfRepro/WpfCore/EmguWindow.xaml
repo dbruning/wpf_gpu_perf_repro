@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         xmlns:emui="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
         xmlns:ui="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
-        Title="EmguWindow" Height="450" Width="800">
-    <Grid>
-        <WindowsFormsHost>
-            <ui:ImageBox x:Name="CapturedImageBox" Width="409" Height="353" />
+        Title="EmguWindow" Height="1200" Width="1600">
+    <DockPanel>
+        <WindowsFormsHost x:Name="WinFormsHost" Background="Pink">
+            <ui:ImageBox x:Name="CapturedImageBox" FunctionalMode="Everything" Dock="Fill"/>
         </WindowsFormsHost>
-    </Grid>
+    </DockPanel>
 </Window>

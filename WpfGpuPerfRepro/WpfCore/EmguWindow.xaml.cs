@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -15,8 +16,9 @@ namespace WpfCore
 		{
 			InitializeComponent();
 
-			_imageMat = new Mat(800, 600, DepthType.Cv8U, 4);
+			_imageMat = new Mat(1200, 1600, DepthType.Cv8U, 4);
 			CapturedImageBox.Image = _imageMat;
+			// CapturedImageBox.Anchor = AnchorStyles.Bottom & AnchorStyles.Left & AnchorStyles.Right & AnchorStyles.Top;
 			
 #pragma warning disable 4014
 			ImageUpdateLoop();
@@ -91,7 +93,7 @@ namespace WpfCore
 				// 	//_writeableBitmap.Freeze();
 				// });
 				// Wait for 30ms & then do it again
-				await Task.Delay(10);
+				await Task.Delay(30);
 			}
 		}
 	}
