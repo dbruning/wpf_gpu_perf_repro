@@ -26,8 +26,8 @@ namespace WpfCore
 		{
 			InitializeComponent();
 			// Set the bitmap scaling mode for the image to render faster.
-			RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.LowQuality);
-			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
+			// RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.NearestNeighbor);
+			// RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -78,6 +78,7 @@ namespace WpfCore
 				// Draw
 				MainImage.Dispatcher.Invoke(() =>
 				{
+					// _writeableBitmap.Freeze();
 					try
 					{
 						// Lock the bitmap, so the BackBuffer doesn't change while we're writing to it
@@ -90,15 +91,16 @@ namespace WpfCore
 						// Add a dirty rect, which causes it to redisplay
 						_writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, _writeableBitmap.PixelWidth, _writeableBitmap.PixelHeight));
 						// Does this help performance?
-						// _writeableBitmap.Freeze();
+						//_writeableBitmap.Freeze();
 					}
 					finally
 					{
 						_writeableBitmap.Unlock();
 					}
+					//_writeableBitmap.Freeze();
 				});
 				// Wait for 30ms & then do it again
-				await Task.Delay(10);
+				await Task.Delay(30);
 			}
 		}
 	}
