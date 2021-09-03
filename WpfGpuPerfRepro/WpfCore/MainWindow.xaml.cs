@@ -25,6 +25,9 @@ namespace WpfCore
 		public MainWindow()
 		{
 			InitializeComponent();
+			// Set the bitmap scaling mode for the image to render faster.
+			RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.LowQuality);
+			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
