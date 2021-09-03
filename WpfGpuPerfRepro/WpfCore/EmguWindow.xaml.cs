@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -11,22 +13,24 @@ namespace WpfCore
 	public partial class EmguWindow : Window
 	{
 		private Mat _imageMat;
-		
+		private Mat _displayMat = new Mat(100, 100, DepthType.Cv8U, 4);
+
 		public EmguWindow()
 		{
 			InitializeComponent();
 
-			_imageMat = new Mat(1200, 1600, DepthType.Cv8U, 4);
 			CapturedImageBox.Image = _imageMat;
 			// CapturedImageBox.Anchor = AnchorStyles.Bottom & AnchorStyles.Left & AnchorStyles.Right & AnchorStyles.Top;
-			
+
 #pragma warning disable 4014
 			ImageUpdateLoop();
 #pragma warning restore 4014
 		}
-		
+
 		private async Task ImageUpdateLoop()
 		{
+			_imageMat = new Mat(600, 800, DepthType.Cv8U, 4);
+
 			var ballColor = new MCvScalar(255, 0, 0, 255);
 			var backgroundColor = new MCvScalar(100, 100, 100, 255);
 			var radius = 40;
@@ -39,35 +43,61 @@ namespace WpfCore
 			var dy = 2;
 			while (true)
 			{
+				// Debug.WriteLine("CapturedImageBox width: " + CapturedImageBox.Width);
+				// if (CapturedImageBox.Width == 0)
+				// {
+				// 	continue;
+				// }
+				// Debug.WriteLine("WinFormsHost width: " + WinFormsHost.ActualWidth);
+
 				// Move
 				cx += dx;
 				cy += dy;
-				
+
 				// Bounce
-				if (cx > width- radius)
+				if (cx > width - radius)
 				{
 					cx = width - radius;
 					dx = -1;
 				}
+
 				if (cx < radius)
 				{
 					cx = radius;
 					dx = 1;
 				}
-				if (cy > height- radius)
+
+				if (cy > height - radius)
 				{
 					cy = height - radius;
 					dy = -1;
 				}
+
 				if (cy < radius)
 				{
 					cy = radius;
 					dy = 1;
 				}
-				
+
+
 				_imageMat.SetTo(backgroundColor);
 				CvInvoke.Circle(_imageMat, new System.Drawing.Point(cx, cy), radius, ballColor, -1);
-			CapturedImageBox.Image = _imageMat;
+
+				// Resize that up to the full size
+				if (CapturedImageBox.Width != 0)
+				{
+					if (CapturedImageBox.Width != _displayMat.Width || CapturedImageBox.Height != _displayMat.Height)
+					{
+						CapturedImageBox.Image = null;
+						_displayMat?.Dispose();
+						_displayMat = new Mat(CapturedImageBox.Height, CapturedImageBox.Width, DepthType.Cv8U, 4);
+					}
+				}
+
+				CvInvoke.ResizeForFrame(_imageMat, _displayMat, _displayMat.Size, Inter.Nearest, scaleDownOnly: false);
+				CapturedImageBox.Image = _displayMat;
+
+
 				// Draw
 				// MainImage.Dispatcher.Invoke(() =>
 				// {
