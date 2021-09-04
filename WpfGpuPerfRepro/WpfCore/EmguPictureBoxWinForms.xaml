@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="EmguPictureBoxWinForms" Height="450" Width="800">
     <WindowsFormsHost x:Name="WinFormsHost" Background="Pink">
-        <emguPictureBox:EmguPictureBox x:Name="CapturedImageBox" Dock="Fill"/>
+        <emguPictureBox:EmguPictureBox x:Name="EmguPictureBoxInWindowsFormsHost" Dock="Fill"/>
     </WindowsFormsHost>
 </Window>
