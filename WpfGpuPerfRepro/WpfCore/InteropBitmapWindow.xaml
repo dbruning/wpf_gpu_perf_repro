@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="InteropBitmapWindow" Height="600" Width="800">
     <Image Name="wpfImage" >
-        <Image.RenderTransform>
-            <TransformGroup>
-                <ScaleTransform ScaleX="2" ScaleY="2" />
-                <!-- <SkewTransform AngleX="30" AngleY="0" /> -->
-                <!-- <RotateTransform Angle="35" /> -->
-                <!-- <TranslateTransform X="50" Y="80" /> -->
-            </TransformGroup>
-        </Image.RenderTransform>
+        <!-- <Image.RenderTransform> -->
+        <!--     <TransformGroup> -->
+        <!--         <ScaleTransform ScaleX="2" ScaleY="2" /> -->
+        <!--         ~1~ <SkewTransform AngleX="30" AngleY="0" /> @1@ -->
+        <!--         ~1~ <RotateTransform Angle="35" /> @1@ -->
+        <!--         ~1~ <TranslateTransform X="50" Y="80" /> @1@ -->
+        <!--     </TransformGroup> -->
+        <!-- </Image.RenderTransform> -->
     </Image>
 </Window>
