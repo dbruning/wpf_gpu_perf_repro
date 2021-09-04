@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfCore
 {
@@ -52,55 +53,63 @@ namespace WpfCore
 				// Move
 				cx += dx;
 				cy += dy;
-				
+
 				// Bounce
 				if (cx > _writeableBitmap.PixelWidth - radius)
 				{
 					cx = _writeableBitmap.PixelWidth - radius;
 					dx = -1;
 				}
+
 				if (cx < radius)
 				{
 					cx = radius;
 					dx = 1;
 				}
+
 				if (cy > _writeableBitmap.PixelHeight - radius)
 				{
 					cy = _writeableBitmap.PixelHeight - radius;
 					dy = -1;
 				}
+
 				if (cy < radius)
 				{
 					cy = radius;
 					dy = 1;
 				}
-				
+
 				// Draw
-				MainImage.Dispatcher.Invoke(() =>
-				{
-					// _writeableBitmap.Freeze();
-					try
+
+				// using (var d = MainImage.Dispatcher.DisableProcessing())
+				// {
+					MainImage.Dispatcher.Invoke(() =>
 					{
-						// Lock the bitmap, so the BackBuffer doesn't change while we're writing to it
-						_writeableBitmap.Lock();
+						// _writeableBitmap.Freeze();
+						try
+						{
+							// Lock the bitmap, so the BackBuffer doesn't change while we're writing to it
+							_writeableBitmap.Lock();
 
-						// Create a mat over the writeableBitmap's buffer
-						_writeableBitmap.Clear(Colors.Goldenrod);
-						_writeableBitmap.FillEllipseCentered(cx, cy, radius, radius, Colors.DarkBlue);
+							// Create a mat over the writeableBitmap's buffer
+							_writeableBitmap.Clear(Colors.Goldenrod);
+							_writeableBitmap.FillEllipseCentered(cx, cy, radius, radius, Colors.DarkBlue);
 
-						// Add a dirty rect, which causes it to redisplay
-						_writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, _writeableBitmap.PixelWidth, _writeableBitmap.PixelHeight));
-						// Does this help performance?
+							// Add a dirty rect, which causes it to redisplay
+							_writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, _writeableBitmap.PixelWidth, _writeableBitmap.PixelHeight));
+							// Does this help performance?
+							//_writeableBitmap.Freeze();
+						}
+						finally
+						{
+							_writeableBitmap.Unlock();
+						}
 						//_writeableBitmap.Freeze();
-					}
-					finally
-					{
-						_writeableBitmap.Unlock();
-					}
-					//_writeableBitmap.Freeze();
-				});
+					}, DispatcherPriority.Render);
+				// }
+
 				// Wait for 30ms & then do it again
-				await Task.Delay(30);
+				await Task.Delay(10);
 			}
 		}
 	}

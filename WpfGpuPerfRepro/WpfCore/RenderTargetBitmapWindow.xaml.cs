@@ -79,7 +79,7 @@ namespace WpfCore
 
 				
 				// Wait for 30ms & then do it again
-				await Task.Delay(30);
+				await Task.Delay(10);
 			}
 		}
 	}
