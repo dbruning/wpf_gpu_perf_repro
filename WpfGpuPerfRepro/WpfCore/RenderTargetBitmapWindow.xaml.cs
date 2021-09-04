@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Brushes = System.Windows.Media.Brushes;
+using Pen = System.Windows.Media.Pen;
+using Point = System.Windows.Point;
 
 namespace WpfCore
 {
@@ -18,6 +22,9 @@ namespace WpfCore
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			// Image.From
+			// Image.BitmapScalingMode
+			// this.VisualBitmapScalingMode = BitmapScalingMode.LowQuality;
 #pragma warning disable 4014
 			ImageUpdateLoop();
 #pragma warning restore 4014
@@ -79,7 +86,7 @@ namespace WpfCore
 
 				
 				// Wait for 30ms & then do it again
-				await Task.Delay(10);
+				await Task.Delay(30);
 			}
 		}
 	}

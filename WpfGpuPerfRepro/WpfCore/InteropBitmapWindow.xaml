@@ -5,6 +5,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WpfCore"
         mc:Ignorable="d"
-        Title="InteropBitmapWindow" Height="450" Width="800">
-    <Image Name="wpfImage" Stretch="None" />
+        Title="InteropBitmapWindow" Height="600" Width="800">
+    <Image Name="wpfImage" >
+        <Image.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+                <!-- <SkewTransform AngleX="30" AngleY="0" /> -->
+                <!-- <RotateTransform Angle="35" /> -->
+                <!-- <TranslateTransform X="50" Y="80" /> -->
+            </TransformGroup>
+        </Image.RenderTransform>
+    </Image>
 </Window>

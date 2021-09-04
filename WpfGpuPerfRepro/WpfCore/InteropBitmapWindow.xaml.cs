@@ -57,6 +57,8 @@ public partial class InteropBitmapWindow : Window
         timer.Interval = 30;
 
         random = new Random();
+        // wpfImage.BitmapScalingMode
+            
 
     }
 
@@ -111,14 +113,17 @@ public partial class InteropBitmapWindow : Window
 
         //create the InteropBitmap
 
-        interopBitmap = Imaging.CreateBitmapSourceFromMemorySection(sectionPointer, (int)ActualWidth, (int)ActualHeight, format,
-            (int)(ActualWidth * format.BitsPerPixel / 8), 0) as InteropBitmap;
+        // TODO: can we do this with emgu memory instead?
+        var width = 800;
+        var height = 600;
+        interopBitmap = Imaging.CreateBitmapSourceFromMemorySection(sectionPointer, width, height, format,
+            (int)(width * format.BitsPerPixel / 8), 0) as InteropBitmap;
 
 
         //create the GDI Bitmap
 
-        gdiBitmap = new System.Drawing.Bitmap((int)ActualWidth, (int)ActualHeight,
-                                    (int)ActualWidth * bpp,
+        gdiBitmap = new System.Drawing.Bitmap((int)width, (int)height,
+                                    (int)width * bpp,
                                      System.Drawing.Imaging.PixelFormat.Format32bppPArgb,
                                     mapPointer);
 

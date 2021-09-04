@@ -19,11 +19,11 @@ namespace WpfCore
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class WriteableBitmapWindow : Window
 	{
 		private WriteableBitmap _writeableBitmap = new WriteableBitmap(800, 600, 96, 96, PixelFormats.Bgr32, null);
 
-		public MainWindow()
+		public WriteableBitmapWindow()
 		{
 			InitializeComponent();
 			// Set the bitmap scaling mode for the image to render faster.
@@ -36,6 +36,7 @@ namespace WpfCore
 			// MessageBox.Show("Loaded");
 			MainImage.Source = _writeableBitmap;
 
+			// MainImage.BitmapScalingMode = 
 #pragma warning disable 4014
 			ImageUpdateLoop();
 #pragma warning restore 4014
@@ -109,7 +110,7 @@ namespace WpfCore
 				// }
 
 				// Wait for 30ms & then do it again
-				await Task.Delay(10);
+				await Task.Delay(30);
 			}
 		}
 	}
