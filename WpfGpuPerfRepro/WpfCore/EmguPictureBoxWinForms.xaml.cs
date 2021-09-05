@@ -10,6 +10,7 @@ namespace WpfCore
 	public partial class EmguPictureBoxWinForms : Window
 	{
 		private Mat _imageMat = new Mat(100, 100, DepthType.Cv8U, 4);
+		private Mat _displayMat= new Mat(100, 100, DepthType.Cv8U, 4);
 
 		public EmguPictureBoxWinForms()
 		{
@@ -85,18 +86,18 @@ namespace WpfCore
 				CvInvoke.Circle(_imageMat, new System.Drawing.Point(cx, cy), radius, ballColor, -1);
 
 				// Resize that up to the full size
-				// if (CapturedImageBox.Width != 0)
-				// {
-				// 	if (CapturedImageBox.Width != _displayMat.Width || CapturedImageBox.Height != _displayMat.Height)
-				// 	{
-				// 		CapturedImageBox.Image = null;
-				// 		_displayMat?.Dispose();
-				// 		_displayMat = new Mat(CapturedImageBox.Height, CapturedImageBox.Width, DepthType.Cv8U, 4);
-				// 	}
-				// }
-				//
-				// CvInvoke.ResizeForFrame(_imageMat, _displayMat, _displayMat.Size, Inter.Nearest, scaleDownOnly: false);
-				EmguPictureBoxInWindowsFormsHost.SetImage(_imageMat);
+				if (EmguPictureBoxInWindowsFormsHost.Width != 0)
+				{
+					if (EmguPictureBoxInWindowsFormsHost.Width != _displayMat.Width && EmguPictureBoxInWindowsFormsHost.Height != _displayMat.Height)
+					{
+						// EmguPictureBoxInWindowsFormsHost.Image = null;
+						_displayMat?.Dispose();
+						_displayMat = new Mat(EmguPictureBoxInWindowsFormsHost.Height, EmguPictureBoxInWindowsFormsHost.Width, DepthType.Cv8U, 4);
+					}
+				}
+				
+				CvInvoke.ResizeForFrame(_imageMat, _displayMat, _displayMat.Size, Inter.Nearest, scaleDownOnly: false);
+				EmguPictureBoxInWindowsFormsHost.SetImage(_displayMat);
 
 
 				// Draw

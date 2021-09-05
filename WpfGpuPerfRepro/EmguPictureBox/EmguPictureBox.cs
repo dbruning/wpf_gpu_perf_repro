@@ -49,14 +49,14 @@ namespace EmguPictureBox
 			{
 				//image is set
 
-				using (System.Drawing.Drawing2D.Matrix transform = pe.Graphics.Transform)
-				{
-					transform.Scale((float) 3, (float) 3, MatrixOrder.Append);
-					transform.Translate(100, 0);
-
-					pe.Graphics.Transform = transform;
+				// using (System.Drawing.Drawing2D.Matrix transform = pe.Graphics.Transform)
+				// {
+				// 	transform.Scale((float) 3, (float) 3, MatrixOrder.Append);
+				// 	transform.Translate(100, 0);
+				//
+				// 	pe.Graphics.Transform = transform;
 					base.OnPaint(pe);
-				}
+				// }
 			}
 
 			// if (IsDisposed) return;
