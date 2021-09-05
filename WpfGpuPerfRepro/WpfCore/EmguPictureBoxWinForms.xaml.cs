@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -18,12 +19,17 @@ namespace WpfCore
 			// CapturedImageBox.Anchor = AnchorStyles.Bottom & AnchorStyles.Left & AnchorStyles.Right & AnchorStyles.Top;
 
 #pragma warning disable 4014
+			// Task.Run(async() =>
+			// {
 			ImageUpdateLoop();
+				
+			// });
 #pragma warning restore 4014
 		}
 
 		private async Task ImageUpdateLoop()
 		{
+			Debug.WriteLine("ImageUpdateLoop");
 			_imageMat = new Mat(600, 800, DepthType.Cv8U, 4);
 
 			var ballColor = new MCvScalar(255, 0, 0, 255);
